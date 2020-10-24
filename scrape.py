@@ -10,7 +10,7 @@ import json
 #api = tweepy.API(auth)
 
 ## apps.json contains a list of all Google apps with their last update value
-apps = open("apps.json", "r")
+apps = open("important_list.json", "r")
 updated_apps = json.load(apps)
 apps.close()
 #print(updated_apps)
@@ -23,35 +23,21 @@ def BFPI(changes):
 
 
 ## Get info about an app
-gmail = app('com.google.android.gm')
-#print(gmail)
-print(gmail['title'])
-print(gmail['recentChanges'])
-print(gmail['updated'])
+for i in updated_apps:
+	print("Checking: " + i)
+	app_info = app(i)
+	#print(app_info)
 
 ## If the app has gotten an update since its last check
-if gmail['updated'] > updated_apps['gmail']:
-	if BFPI(gmail['recentChanges']):
-		print("Gmail has been updated!: https://play.google.com/store/apps/details?id=com.google.android.gm \n " + gmail['recentChanges'])
-		#api.update_status("Gmail has been updated!: \n " + gmail['recentChanges'])
+	if app_info['updated'] > updated_apps[i]:
+		if BFPI(app_info['recentChanges']):
+			print(app_info['title'] + " has been updated!: https://play.google.com/store/apps/details?id=" + i + " \n " + app_info['recentChanges'])
+			#api.update_status(app_info['title'] + " has been updated!: https://play.google.com/store/apps/details?id=" + i + " \n " + app_info['recentChanges'])
 		an_app_got_an_update = True
-		updated_apps["gmail"] = gmail['updated']
-
-truecaller = app('com.truecaller')
-#print(truecaller)
-print(truecaller['title'])
-print(truecaller['recentChanges'])
-print(truecaller['updated'])
-
-if truecaller['updated'] > updated_apps['truecaller']:
-	if BFPI(truecaller['recentChanges']):
-		print("Truecaller has been updated!: https://play.google.com/store/apps/details?id=com.truecaller \n " + truecaller['recentChanges'])
-		#api.update_status("Truecaller has been updated!: \n " + truecaller['recentChanges'])
-		an_app_got_an_update = True
-		updated_apps["truecaller"] = truecaller['updated']
+		updated_apps[i] = app_info['updated']
 
 ## If any app got an update, then update the json file with the new values
 if (an_app_got_an_update):
-	apps = open("apps.json", "w")
+	apps = open("important_list.json", "w")
 	json.dump(updated_apps, apps)
 	apps.close()
