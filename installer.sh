@@ -1,4 +1,6 @@
 #!/bin/bash
+echo "MAKE SURE YOU PUT ALL FILES IN /home/pi/BFNPI/  !!!!!"
+echo "Edit PATHS inside scrap.py and setup.py if you want to change working directories"
 echo "Installing google play scraper"
 pip3 install google-play-scraper
 echo "Installing tweepy"
