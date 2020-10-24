@@ -12,7 +12,7 @@ This is a Twitter bot that checks if a Google app has been updated with "Bug fix
 
 First, run the `installer.sh` file:
 ```
-./installer.sh
+sh installer.sh
 ```
 
 Then whenever you want to check for an app update, run:
