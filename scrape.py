@@ -20,8 +20,10 @@ an_app_got_an_update = False
 
 ## Check if "Bug fixes and Performance Improvements" are in the changes
 def BFPI(changes):
-		if "bug fixes and performance improvements" in str.lower(changes) or "bug fixes & performance improvements" in str.lower(changes) or "bug fixes and stability improvements" in str.lower(changes) or "bug fixes & stability improvements" in str.lower(changes):
-			return True
+	if changes is None:
+		return False
+	if "bug fixes and performance improvements" in str.lower(changes) or "bug fixes & performance improvements" in str.lower(changes) or "bug fixes and stability improvements" in str.lower(changes) or "bug fixes & stability improvements" in str.lower(changes):
+		return True
 
 
 ## Get info about an app
@@ -33,7 +35,8 @@ for i in updated_apps:
 ## If the app has gotten an update since its last check
 	if app_info['updated'] > updated_apps[i]:
 		if BFPI(app_info['recentChanges']):
-			print(app_info['title'] + " has been updated!: https://play.google.com/store/apps/details?id=" + i + " \n " + app_info['recentChanges'])
+			print(app_info['title'] + " has been updated! Changelog contains \"Bug fixes and Performance Improvements\" \n" + app_info['url'])
+			api.update_status(app_info['title'] + " has been updated! Changelog contains \"Bug fixes and Performance Improvements\" \n" + app_info['url'])
 			#api.update_status(app_info['title'] + " has been updated!: https://play.google.com/store/apps/details?id=" + i + " \n " + app_info['recentChanges'])
 		an_app_got_an_update = True
 		updated_apps[i] = app_info['updated']
